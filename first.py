@@ -2,15 +2,6 @@ import re
 from datetime import datetime
 
 
-class Patient:
-    def __init__(self, passport, name, birth_date, phone, temperature):
-        self.passport = passport
-        self.name = name
-        self.birth_date = birth_date
-        self.phone = phone
-        self.temperature = temperature
-
-
 class Date:
     def __init__(self, dd, mm, yyyy):
         self.dd = dd
@@ -18,9 +9,29 @@ class Date:
         self.yyyy = yyyy
 
 
+class Patient:
+    def __init__(
+        self,
+        passport,
+        name,
+        birth_date,
+        phone,
+        temperature,
+        skin_color
+    ):
+        self.passport = passport
+        self.name = name
+        self.birth_date = birth_date
+        self.phone = phone
+        self.temperature = temperature
+        self.skin_color = skin_color
+
+
 def input_passport():
     while True:
-        passport = input("Введите паспорт в формате XX XX-XXXXXX: ")
+        passport = input(
+            "Введите паспорт в формате XX XX-XXXXXX: "
+        )
 
         if re.fullmatch(r"\d{2} \d{2}-\d{6}", passport):
             return passport
@@ -36,19 +47,24 @@ def input_name():
         if name:
             return name
 
-        print("Ошибка. Имя не может быть пустым.")
+        print("Ошибка. ФИО не может быть пустым.")
 
 
 def input_birth_date():
     while True:
-        date_string = input("Введите дату рождения в формате YYYY-MM-DD: ")
+        date_string = input(
+            "Введите дату рождения в формате YYYY-MM-DD: "
+        )
 
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_string):
             print("Ошибка. Дата должна иметь формат YYYY-MM-DD.")
             continue
 
         try:
-            date = datetime.strptime(date_string, "%Y-%m-%d")
+            date = datetime.strptime(
+                date_string,
+                "%Y-%m-%d"
+            )
 
             if date.date() > datetime.now().date():
                 print("Ошибка. Дата рождения не может быть в будущем.")
@@ -71,7 +87,11 @@ def input_phone():
             "(+X(XXX) XXX-XX-XX или X(XXX) XXX-XXXX): "
         )
 
-        pattern = r"(\+\d|\d)\(\d{3}\) \d{3}-\d{2}-\d{2,4}"
+        pattern = (
+            r"\+\d\(\d{3}\) \d{3}-\d{2}-\d{2}"
+            r"|"
+            r"\d\(\d{3}\) \d{3}-\d{4}"
+        )
 
         if re.fullmatch(pattern, phone):
             return phone
@@ -91,13 +111,40 @@ def input_temperature():
             print("Ошибка. Температура должна иметь формат XX.XX.")
             continue
 
-        temperature = float(temperature_string)
+        return float(temperature_string)
 
-        return temperature
+
+def input_skin_color():
+    while True:
+        color_string = input(
+            "Введите цвет кожи в формате RGB "
+            "(например, 255,200,180): "
+        )
+
+        try:
+            rgb = tuple(
+                map(int, color_string.split(","))
+            )
+
+            if len(rgb) == 3 and all(
+                0 <= value <= 255 for value in rgb
+            ):
+                return rgb
+
+            print(
+                "Ошибка. Нужно ввести 3 числа "
+                "от 0 до 255."
+            )
+
+        except ValueError:
+            print(
+                "Ошибка. Введите три целых числа "
+                "через запятую."
+            )
 
 
 def print_patient(patient):
-    print("\nДанные пациента:")
+    print("\n=== Данные пациента ===")
     print(f"Паспорт: {patient.passport}")
     print(f"ФИО: {patient.name}")
 
@@ -110,6 +157,7 @@ def print_patient(patient):
 
     print(f"Телефон: {patient.phone}")
     print(f"Температура: {patient.temperature:.2f}")
+    print(f"Цвет кожи RGB: {patient.skin_color}")
 
 
 def main():
@@ -120,13 +168,15 @@ def main():
     birth_date = input_birth_date()
     phone = input_phone()
     temperature = input_temperature()
+    skin_color = input_skin_color()
 
     patient = Patient(
         passport,
         name,
         birth_date,
         phone,
-        temperature
+        temperature,
+        skin_color
     )
 
     print_patient(patient)
@@ -135,6 +185,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
-#ветка дефенс1 супер квест добавляем пациентам цвет кожи в формате ргб(255,255) githist alias добавить
