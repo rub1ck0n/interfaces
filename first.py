@@ -3,19 +3,31 @@ from datetime import datetime
 
 
 class Patient:
-    def __init__(self, passport, name, birth_date, phone, temperature):
-        self.passport = passport
-        self.name = name
-        self.birth_date = birth_date
-        self.phone = phone
-        self.temperature = temperature
+    def __init__(
+        self,
+        passport: str,
+        name: str,
+        birth_date: str,
+        phone: str,
+        temperature: float
+    ):
+        self.passport: str = passport
+        self.name: str = name
+        self.birth_date: str = birth_date
+        self.phone: str = phone
+        self.temperature: float = temperature
 
 
 class Date:
-    def __init__(self, dd, mm, yyyy):
-        self.dd = dd
-        self.mm = mm
-        self.yyyy = yyyy
+    def __init__(
+        self,
+        dd: int,
+        mm: int,
+        yyyy: int
+    ):
+        self.dd: int = dd
+        self.mm: int = mm
+        self.yyyy: int = yyyy
 
 
 def input_passport():
@@ -134,7 +146,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-#ветка дефенс1 супер квест добавляем пациентам цвет кожи в формате ргб(255,255) githist alias добавить
